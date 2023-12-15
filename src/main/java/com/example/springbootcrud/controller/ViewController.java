@@ -29,7 +29,7 @@ public class ViewController {
         return "view";
     }
 
-    @PutMapping ("/edit/{id}")
+    @PostMapping ("/edit/{id}")
     public String updateCourse(@PathVariable long id, @RequestBody Course course) {
         Optional<Course> courseData = courseRepository.findById(id);
         if (courseData.isPresent()) {
@@ -52,7 +52,7 @@ public class ViewController {
         return "create";
     }
 
-    @PostMapping("/courses/view")
+    @PostMapping("/view")
     public String createCourse(@ModelAttribute Course course) {
         courseRepository.save(course);
         return "redirect:/courses/view";
