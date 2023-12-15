@@ -29,8 +29,8 @@ public class ViewController {
         return "view";
     }
 
-    @PostMapping ("/edit/{id}")
-    public String updateCourse(@PathVariable long id, @RequestBody Course course) {
+    @PutMapping ("/edit/{id}")
+    public String updateCourse(@PathVariable long id, @ModelAttribute Course course) {
         Optional<Course> courseData = courseRepository.findById(id);
         if (courseData.isPresent()) {
             Course _course = courseData.get();
