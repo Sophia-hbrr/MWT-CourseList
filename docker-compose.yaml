@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  database:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: courselistdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: secretpw
+    ports:
+      - "3306:3306"
+    networks:
+      - coursenet
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin", "ping", "-h", "localhost"]
+
+  springboot:
+    build: ./app
+    image: courselist
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/courselistdb
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: secretpw
+    restart: on-failure
+    networks:
+      - coursenet
+
+networks:
+  coursenet:
+    driver: bridge
